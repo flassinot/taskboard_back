@@ -1,9 +1,9 @@
-insert into users values (1, 'Moore', 'Roger');
-insert into users values (2, 'Connery', 'Sean');
+insert into users(last_name, first_name) values ('Moore', 'Roger');
+insert into users(last_name, first_name) values ('Connery', 'Sean');
 
-insert into tasks values (1, 'Git', null, null);
-insert into tasks values (2, 'Ajout services', null, null);
+insert into tasks(description) values ('Git');
+insert into tasks(description) values ('Ajout services');
 
-insert into task_lists values (1, 'TODO');
-insert into task_lists values (2, 'DOING');
-insert into task_lists values (3, 'DONE');
+insert into task_lists(description) values ('TODO');
+insert into task_lists(description) values ('DOING');
+insert into task_lists(description) values ('DONE');

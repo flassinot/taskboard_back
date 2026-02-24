@@ -1,0 +1,24 @@
+meta {
+  name: Put Task
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8080/api/tasks
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "description": "tests",
+    "userId": null,
+    "taskListId": null
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

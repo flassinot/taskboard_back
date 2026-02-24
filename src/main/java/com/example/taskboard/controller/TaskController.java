@@ -25,4 +25,9 @@ public class TaskController {
     public TaskDto saveTask(@RequestBody TaskDto task) {
         return this.taskService.saveTask(task);
     }
+
+    @PutMapping
+    public TaskDto updateTask(@RequestBody TaskDto task) {
+        return this.taskService.updateTask(task);
+    }
 }

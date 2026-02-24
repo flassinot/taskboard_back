@@ -26,6 +26,12 @@ public class TaskService {
         return task;
     }
 
+    public TaskDto updateTask(TaskDto task) {
+        if (!taskRepository.findById(task.getId()).isPresent()) throw new TaskException("Task non trouvée !");
+        this.taskRepository.save(mapToTask(task));
+        return task;
+    }
+
     public List<TaskDto> getTasks() {
         return StreamSupport.stream(this.taskRepository.findAll().spliterator(), false)
                 .map(t -> mapToTaskDto(t))
