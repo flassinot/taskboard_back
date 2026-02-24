@@ -1,24 +1,16 @@
-package com.example.taskboard.model;
+package com.example.taskboard.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "tasks")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
+public class TaskDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String description;
-
     private Long userId;
-
     private Long taskListId;
 }

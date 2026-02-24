@@ -1,8 +1,6 @@
 package com.example.taskboard.controller;
 
-import com.example.taskboard.model.Task;
-import com.example.taskboard.model.User;
-import com.example.taskboard.service.TaskService;
+import com.example.taskboard.dto.UserDto;
 import com.example.taskboard.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public List<UserDto> getUsers() {
         return userService.getUsers();
     }
 }

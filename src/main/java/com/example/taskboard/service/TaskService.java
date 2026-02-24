@@ -1,60 +1,52 @@
 package com.example.taskboard.service;
 
+import com.example.taskboard.dto.TaskDto;
+import com.example.taskboard.dto.TaskListDto;
 import com.example.taskboard.model.Task;
-import com.example.taskboard.model.TaskList;
+import com.example.taskboard.repository.TaskRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Component
 public class TaskService {
 
-    @Getter
-    private List<Task> tasks = new ArrayList<>();
-    private TaskListService taskListService;
+    private TaskRepository taskRepository;
 
-    public TaskService(TaskListService taskListService) {
-        this.taskListService = taskListService;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
-    public Task saveTask(Task task) {
-        if (task.getId() != null) {
-            this.tasks.stream().filter(
-                            t -> t.getId() != null
-                                    && t.getId().equals(task.getId())).findFirst()
-                    .ifPresent((t) -> {
-                        this.tasks.remove(t);
-                    });
-        } else {
-            task.setId((long) tasks.size() + 1);
-        }
-        this.tasks.add(task);
+    public TaskDto saveTask(TaskDto task) {
+        this.taskRepository.save(mapToTask(task));
         return task;
     }
 
-    @PostConstruct
-    public void initTasks() {
-        TaskList todo = taskListService.getTaskLists()
-                .stream()
-                .filter(t -> t.getId().equals(1L))
-                .findFirst()
-                .get();
+    public List<TaskDto> getTasks() {
+        return StreamSupport.stream(this.taskRepository.findAll().spliterator(), false)
+                .map(t -> mapToTaskDto(t))
+                .toList();
+    }
 
-        this.tasks = new ArrayList<>(List.of(
-                Task.builder()
-                        .id(1L)
-                        .description("git")
-                        .taskListId(todo.getId())
-                        .build(),
-                Task.builder()
-                        .id(2L)
-                        .description("ajout services")
-                        .taskListId(todo.getId())
-                        .build()
-        ));
+    public TaskDto mapToTaskDto(Task task) {
+        return TaskDto.builder()
+                .id(task.getId())
+                .description(task.getDescription())
+                .userId(task.getUserId())
+                .taskListId(task.getTaskListId())
+                .build();
+    }
+
+    public Task mapToTask(TaskDto taskDto) {
+        return Task.builder()
+                .id(taskDto.getId())
+                .description(taskDto.getDescription())
+                .userId(taskDto.getUserId())
+                .taskListId(taskDto.getTaskListId())
+                .build();
     }
 }

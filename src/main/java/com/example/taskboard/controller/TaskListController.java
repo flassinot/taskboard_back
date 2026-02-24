@@ -1,9 +1,7 @@
 package com.example.taskboard.controller;
 
-import com.example.taskboard.model.Task;
-import com.example.taskboard.model.TaskList;
+import com.example.taskboard.dto.TaskListDto;
 import com.example.taskboard.service.TaskListService;
-import com.example.taskboard.service.TaskService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +19,7 @@ public class TaskListController {
     }
 
     @GetMapping()
-    public List<TaskList> getTaskLists() {
+    public List<TaskListDto> getTaskLists() {
         return taskListService.getTaskLists();
     }
 }

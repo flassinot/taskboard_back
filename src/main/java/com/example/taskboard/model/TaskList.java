@@ -1,18 +1,18 @@
 package com.example.taskboard.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
+@Entity
+@Table(name = "task_lists")
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 public class TaskList {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String description;
 }
