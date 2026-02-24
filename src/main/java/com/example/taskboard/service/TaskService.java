@@ -1,14 +1,10 @@
 package com.example.taskboard.service;
 
 import com.example.taskboard.dto.TaskDto;
-import com.example.taskboard.dto.TaskListDto;
 import com.example.taskboard.model.Task;
 import com.example.taskboard.repository.TaskRepository;
-import jakarta.annotation.PostConstruct;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -21,9 +17,18 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public TaskDto saveTask(TaskDto task) {
-        this.taskRepository.save(mapToTask(task));
-        return task;
+    public TaskDto saveTask(TaskDto taskDto) {
+        long maxId = StreamSupport.stream(taskRepository.findAll().spliterator(), false)
+                .map(Task::getId)
+                .max(Long::compare)
+                .stream()
+                .findFirst()
+                .orElse(0L);
+        long newId = maxId + 10;
+        Task task = mapToTask(taskDto);
+        task.setId(newId);
+        this.taskRepository.save(task);
+        return taskDto;
     }
 
     public TaskDto updateTask(TaskDto task) {
